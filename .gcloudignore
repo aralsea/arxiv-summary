@@ -1,0 +1,7 @@
+Pipfile
+Pipfile.lock
+.env
+.mypy_cache
+main_slack.py
+.gitignore
+.gcloudignore
