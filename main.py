@@ -62,7 +62,10 @@ def get_summary(result: arxiv.Result):
 def main(event):
     # queryを用意
     end_time = datetime.datetime.now(datetime.timezone.utc)
-    start_time = end_time - ONE_DAY_DELTA
+    start_time = datetime.datetime.combine(
+        date=(end_time - ONE_DAY_DELTA * 2).date(), time=datetime.time(18, 0, 0)
+    )
+    print(f"{start_time} to {end_time}")
     start_time_str = start_time.strftime("%Y%m%d%H%M%S")
     end_time_str = end_time.strftime("%Y%m%d%H%M%S")
     query = f"cat:{CATEGORY} AND submittedDate:[{start_time_str} TO {end_time_str}]"
@@ -88,3 +91,5 @@ def main(event):
             post_discord(message=message)
         except Exception:
             print(f"error on {i+1}-th paper.")
+
+    print("Done!")
