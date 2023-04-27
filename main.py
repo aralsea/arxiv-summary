@@ -62,9 +62,16 @@ def get_summary(result: arxiv.Result):
 def main(event):
     # queryを用意
     end_time = datetime.datetime.now(datetime.timezone.utc)
-    start_time = datetime.datetime.combine(
-        date=(end_time - ONE_DAY_DELTA * 2).date(), time=datetime.time(18, 0, 0)
-    )
+
+    # 月曜は3日前、それ以外は1日前までの論文を取得する
+    if end_time.weekday() == 0:
+        start_time = datetime.datetime.combine(
+            date=(end_time - ONE_DAY_DELTA * 4).date(), time=datetime.time(18, 0, 0)
+        )
+    else:
+        start_time = datetime.datetime.combine(
+            date=(end_time - ONE_DAY_DELTA * 2).date(), time=datetime.time(18, 0, 0)
+        )
     print(f"{start_time} to {end_time}")
     start_time_str = start_time.strftime("%Y%m%d%H%M%S")
     end_time_str = end_time.strftime("%Y%m%d%H%M%S")
