@@ -1,2 +1,3 @@
 # arxiv-summary
-arXiv math.AGの1日分の新着論文を要約してDiscordに投稿するスクリプト。
+- arXiv math.AGの1日分の新着論文をGPT APIを使って要約し、それをDiscordに投稿するスクリプト。
+- This script uses GPT API to summarize new papers on arXiv math.AG and posts them to a designated Discord channel. 
