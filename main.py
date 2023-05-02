@@ -53,7 +53,11 @@ def get_summary(result: arxiv.Result):
     title, *body = summary.split("\n")
     body = "\n".join(body)
     date_str = result.published.strftime("%Y-%m-%d %H:%M:%S")
-    message = f"投稿日時: {date_str}\n{result.entry_id}\n{title_en}\n{title}\n{body}\n\n"
+    authors_str = ", ".join(result.authors)
+    message = (
+        f"投稿日時: {date_str}\n著者: {authors_str}\n"
+        + f"{result.entry_id}\n{title_en}\n{title}\n{body}\n\n"
+    )
 
     return message
 
@@ -63,8 +67,10 @@ def main(event):
     # queryを用意
     end_time = datetime.datetime.now(datetime.timezone.utc)
 
-    # 月曜は3日前、それ以外は1日前までの論文を取得する
-    if end_time.weekday() == 0:
+    # 月火は3日前、
+    # それ以外は1日前までの論文を取得する
+    # https://info.arxiv.org/help/availability.html を参照
+    if end_time.weekday() == 0 or 1:
         start_time = datetime.datetime.combine(
             date=(end_time - ONE_DAY_DELTA * 4).date(), time=datetime.time(18, 0, 0)
         )
