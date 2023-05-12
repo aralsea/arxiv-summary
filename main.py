@@ -70,7 +70,7 @@ def main(event):
     # 月火は3日前、
     # それ以外は1日前までの論文を取得する
     # https://info.arxiv.org/help/availability.html を参照
-    if end_time.weekday() == 0 or 1:
+    if end_time.weekday() in [0, 1]:
         start_time = datetime.datetime.combine(
             date=(end_time - ONE_DAY_DELTA * 4).date(), time=datetime.time(18, 0, 0)
         )
