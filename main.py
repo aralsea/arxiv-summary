@@ -53,7 +53,7 @@ def get_summary(result: arxiv.Result):
     title, *body = summary.split("\n")
     body = "\n".join(body)
     date_str = result.published.strftime("%Y-%m-%d %H:%M:%S")
-    authors_str = ", ".join(result.authors)
+    authors_str = ", ".join([author.name for author in result.authors])
     message = (
         f"投稿日時: {date_str}\n著者: {authors_str}\n"
         + f"{result.entry_id}\n{title_en}\n{title}\n{body}\n\n"
@@ -97,12 +97,11 @@ def main(event):
 
     # 論文情報をDiscordに投稿する
     for i, result in enumerate(result_list):
-        try:
-            # Discordに投稿するメッセージを組み立てる
-            message = "今日の論文です！ " + str(i + 1) + "本目\n" + get_summary(result)
-            # Discordにメッセージを投稿する
-            post_discord(message=message)
-        except Exception:
-            print(f"error on {i+1}-th paper.")
+        # Discordに投稿するメッセージを組み立てる
+        message = "今日の論文です！ " + str(i + 1) + "本目\n" + get_summary(result)
+        # Discordにメッセージを投稿する
+        post_discord(message=message)
+        # except Exception:
+        #     print(f"error on {i+1}-th paper.")
 
     print("Done!")
